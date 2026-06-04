@@ -5,9 +5,11 @@ let vibOn   = true;
 let sndOn   = true;
 let vol     = 0.7;
 let speed   = 1.0;
+let sensitivity = 255;
 
 const VOL_DEF = 70;
 const SPD_DEF = 100;
+const SENS_DEF = 255;
 
 function toggleVib() {
   vibOn = !vibOn;
@@ -47,6 +49,16 @@ function onSpd(v) {
   checkChanged();
 }
 
+/* Intensity presets */
+function setIntensity(v, btn) {
+  sensitivity = v;
+  segments.forEach(s => { if (s.duration > 0) s.power = v; });
+  document.querySelectorAll('#ipresets .ipb').forEach(b => b.classList.remove('active'));
+  if (btn) btn.classList.add('active');
+  syncTA(segments);
+  updateDisplay();
+}
+
 /* Inline editing */
 function startEdit(which) {
   if (which === 'vol') {
@@ -57,7 +69,7 @@ function startEdit(which) {
     inp.value = v;
     inp.focus();
     inp.select();
-  } else {
+  } else if (which === 'spd') {
     document.getElementById('svaltxt').style.display = 'none';
     const inp = document.getElementById('sinput');
     inp.style.display = 'inline-block';
@@ -74,7 +86,7 @@ function commitEdit(which) {
     onVol(v);
     document.getElementById('vinput').style.display = 'none';
     document.getElementById('vvaltxt').style.display = '';
-  } else {
+  } else if (which === 'spd') {
     let v = Math.max(.25, Math.min(4, parseFloat(document.getElementById('sinput').value) || 1));
     const pct = Math.round(v * 100);
     document.getElementById('ssldr').value = pct;
@@ -90,7 +102,7 @@ function editKey(e, which) {
     if (which === 'vol') {
       document.getElementById('vinput').style.display = 'none';
       document.getElementById('vvaltxt').style.display = '';
-    } else {
+    } else if (which === 'spd') {
       document.getElementById('sinput').style.display = 'none';
       document.getElementById('svaltxt').style.display = '';
     }
@@ -104,7 +116,7 @@ function resetCtrl(which) {
     onVol(VOL_DEF);
     document.getElementById('vinput').style.display = 'none';
     document.getElementById('vvaltxt').style.display = '';
-  } else {
+  } else if (which === 'spd') {
     document.getElementById('ssldr').value = SPD_DEF;
     onSpd(SPD_DEF);
     document.getElementById('sinput').style.display = 'none';
@@ -115,6 +127,8 @@ function resetCtrl(which) {
 function resetAll() {
   resetCtrl('vol');
   resetCtrl('spd');
+  sensitivity = SENS_DEF;
+  setIntensity(SENS_DEF, document.querySelector('#ipresets .ipb:last-child'));
   if (!vibOn) toggleVib();
   if (!sndOn) toggleSnd();
   if (looping) toggleLoop();

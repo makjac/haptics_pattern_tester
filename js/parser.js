@@ -49,15 +49,35 @@ function parsePat(raw) {
 }
 
 function syncTA(segs) {
-  const arr = [0];
-  segs.forEach(s => {
+  const hasCustom = segs.some(s => s.duration > 0 && s.power !== 255);
+  if (!hasCustom) {
+    const arr = [0];
+    segs.forEach(s => {
+      if (s.duration > 0) {
+        arr.push(s.duration);
+        if (s.pause > 0) arr.push(s.pause);
+      }
+    });
+    const ta = document.getElementById('ta');
+    ta.value = JSON.stringify(arr);
+    ta.className = 'ok2';
+    return;
+  }
+
+  const ext = [];
+  segs.forEach((s, idx) => {
+    if (idx === 0 && s.pause > 0) {
+      ext.push({ d: s.pause, p: 0 });
+    }
     if (s.duration > 0) {
-      arr.push(s.duration);
-      if (s.pause > 0) arr.push(s.pause);
+      ext.push({ d: s.duration, p: s.power });
+    }
+    if (s.pause > 0 && idx > 0) {
+      ext.push({ d: s.pause, p: 0 });
     }
   });
   const ta = document.getElementById('ta');
-  ta.value = JSON.stringify(arr);
+  ta.value = JSON.stringify(ext);
   ta.className = 'ok2';
 }
 
@@ -66,13 +86,13 @@ function addSegment() {
   const base = segs.length ? segs : [];
 
   if (!base.length) {
-    base.push({ duration: 100, power: 255, pause: 0 });
+    base.push({ duration: 100, power: sensitivity, pause: 0 });
   } else {
     const last = base[base.length - 1];
     if (last.pause === 0) {
       last.pause = 100;
     } else {
-      base.push({ duration: 100, power: 255, pause: 0 });
+      base.push({ duration: 100, power: sensitivity, pause: 0 });
     }
   }
 

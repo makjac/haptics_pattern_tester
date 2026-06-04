@@ -36,6 +36,11 @@ body {
   width: 100%;
   max-width: 960px;
   margin: 0 auto;
+  min-height: 100vh;
+}
+
+@media (min-width: 1200px) {
+  .app { max-width: 1200px; }
 }
 
 /* Header */
@@ -154,6 +159,38 @@ textarea.ok2   { border-color: var(--ok); }
   border-color: var(--ac);
   color: var(--ac);
   background: #0f1630;
+}
+
+/* Intensity presets */
+.intensity-presets {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  margin-top: 6px;
+}
+
+.ipb {
+  background: var(--s2);
+  border: 1px solid var(--b1);
+  border-radius: 4px;
+  color: var(--t2);
+  font-family: var(--mono);
+  font-size: 11px;
+  padding: 3px 8px;
+  cursor: pointer;
+  transition: all .12s;
+}
+
+.ipb:hover {
+  border-color: var(--ac2);
+  color: var(--ac2);
+  background: #150f30;
+}
+
+.ipb.active {
+  border-color: var(--ac2);
+  color: var(--ac2);
+  background: #1a1040;
 }
 
 /* Controls */
@@ -447,6 +484,21 @@ canvas#tlc {
 .drag-handle.left-h  { cursor: w-resize; }
 .drag-handle.right-h { cursor: e-resize; }
 
+/* Timeline center drag overlays (invisible time/power handles) */
+.seg-drag, .pause-drag {
+  position: absolute;
+  top: 0;
+  height: 100%;
+  z-index: 5;
+  background: transparent;
+  user-select: none;
+}
+.seg-drag   { cursor: grab; }
+.pause-drag { cursor: ew-resize; }
+.seg-drag:hover, .pause-drag:hover {
+  background: rgba(79,124,255,0.06);
+}
+
 .tl-actions {
   width: 36px;
   flex-shrink: 0;
@@ -583,6 +635,20 @@ canvas#tlc {
   letter-spacing: .06em;
 }
 
+.dcard-scalable {
+  cursor: ew-resize;
+  user-select: none;
+  transition: border-color .15s, background .15s;
+}
+.dcard-scalable:hover {
+  border-color: var(--ac2);
+  background: #151030;
+}
+.dcard-scalable:active {
+  border-color: var(--ac);
+  background: #1a2040;
+}
+
 /* Export */
 .exp-sec {
   padding: 12px 16px;
@@ -665,6 +731,33 @@ canvas#tlc {
 .smsg {
   font-size: 11px;
   color: var(--t3);
+}
+
+/* Mobile responsiveness */
+@media (max-width: 580px) {
+  body { font-size: 15px; }
+  .hdr { padding: 10px 12px; gap: 6px; }
+  .htitle { font-size: 15px; }
+  .hsub { font-size: 13px; }
+  .bdg { font-size: 12px; padding: 3px 10px; }
+  .pnl { padding: 12px 14px; }
+  textarea { min-height: 140px; font-size: 14px; }
+  .btn { padding: 8px 14px; font-size: 14px; }
+  .pb { font-size: 13px; padding: 5px 10px; }
+  .clbl { font-size: 13px; min-width: 52px; }
+  .tlbl { font-size: 13px; }
+  .sval-txt { font-size: 13px; min-width: 36px; }
+  .sval-input { font-size: 13px; width: 48px; height: 20px; }
+  input[type=range] { height: 6px; }
+  input[type=range]::-webkit-slider-thumb { width: 18px; height: 18px; }
+  .dval { font-size: 18px; }
+  .dkey { font-size: 11px; }
+  .tl-wrap { height: 88px; }
+  .tl-add-btn span, .tl-rm-btn span { font-size: 10px; }
+  .tl-add-btn i, .tl-rm-btn i { font-size: 16px; }
+  .ebtn { font-size: 13px; padding: 5px 12px; }
+  .code-prev { font-size: 12px; }
+  .smsg { font-size: 12px; }
 }
 
 /* Accessibility */

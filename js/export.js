@@ -33,13 +33,21 @@ function doExport(type, silent) {
   let code = '';
   if (type === 'flutter') {
     const arr = [0];
+    const ints = [];
+    let hasCustomInt = false;
     segs.forEach(s => {
       if (s.duration > 0) {
         arr.push(s.duration);
         if (s.pause > 0) arr.push(s.pause);
+        ints.push(s.power);
+        if (s.power !== 255) hasCustomInt = true;
       }
     });
-    code = `// Flutter – Vibration package\nVibration.vibrate(\n  pattern: ${JSON.stringify(arr)},\n);`;
+    code = `// Flutter – Vibration package\nVibration.vibrate(\n  pattern: ${JSON.stringify(arr)},`;
+    if (hasCustomInt) {
+      code += `\n  intensities: ${JSON.stringify(ints)},`;
+    }
+    code += `\n);`;
   } else if (type === 'extended') {
     const ext = [];
     segs.forEach(s => {
@@ -49,7 +57,7 @@ function doExport(type, silent) {
     code = `// Extended format (d=duration ms, p=power 0-255)\n${JSON.stringify(ext, null, 2)}`;
   } else {
     const raw = document.getElementById('ta').value.trim();
-    code = `// Share link (URL encoded pattern)\n${location.href.split('?')[0]}?p=${encodeURIComponent(raw)}`;
+    code = `${location.href.split('?')[0]}?p=${encodeURIComponent(raw)}`;
   }
 
   prev.innerHTML = hl(code);

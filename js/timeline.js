@@ -73,23 +73,19 @@ function buildHandles(segs) {
     const pauseW = seg.pause > 0 ? (seg.pause / total) * W : 0;
 
     if (seg.duration > 0) {
-      const lh = document.createElement('div');
-      lh.className = 'drag-handle left-h';
-      lh.style.cssText = `left:${segStartX - 4}px;width:10px;height:${H}px`;
-      const li = document.createElement('div');
-      li.className = 'dh-line';
-      lh.appendChild(li);
-      makeDraggable(lh, 'left', idx, segs, W, total);
-      hc.appendChild(lh);
+      const center = document.createElement('div');
+      center.className = 'seg-drag';
+      center.style.cssText = `left:${segStartX}px;width:${Math.max(8, vibW)}px;height:${H}px`;
+      makeCenterDraggable(center, idx, segs, W, total, H);
+      hc.appendChild(center);
+    }
 
-      const rh = document.createElement('div');
-      rh.className = 'drag-handle right-h';
-      rh.style.cssText = `left:${segStartX + vibW - 4}px;width:10px;height:${H}px`;
-      const ri = document.createElement('div');
-      ri.className = 'dh-line';
-      rh.appendChild(ri);
-      makeDraggable(rh, 'right', idx, segs, W, total);
-      hc.appendChild(rh);
+    if (seg.pause > 0) {
+      const ph = document.createElement('div');
+      ph.className = 'pause-drag';
+      ph.style.cssText = `left:${segStartX + vibW}px;width:${Math.max(8, pauseW)}px;height:${H}px`;
+      makePauseDraggable(ph, idx, segs, W, total);
+      hc.appendChild(ph);
     }
 
     x += vibW + pauseW;
@@ -142,6 +138,115 @@ function makeDraggable(el, side, idx, segs, W, total) {
       document.removeEventListener('mouseup', onUp);
       document.removeEventListener('touchmove', onMove);
       document.removeEventListener('touchend', onUp);
+    };
+
+    document.addEventListener('mousemove', onMove, { passive: false });
+    document.addEventListener('mouseup', onUp);
+    document.addEventListener('touchmove', onMove, { passive: false });
+    document.addEventListener('touchend', onUp);
+  };
+
+  el.addEventListener('mousedown', onDown);
+  el.addEventListener('touchstart', onDown, { passive: false });
+}
+
+/* Center drag: horizontal = time, vertical = power */
+function makeCenterDraggable(el, idx, segs, W, total, H) {
+  let startX, startY, startDur, startPower, mode = null;
+
+  const onDown = e => {
+    e.preventDefault();
+    startX = e.touches ? e.touches[0].clientX : e.clientX;
+    startY = e.touches ? e.touches[0].clientY : e.clientY;
+    startDur = segs[idx].duration;
+    startPower = segs[idx].power;
+    mode = null;
+
+    const onMove = ev => {
+      const cx = ev.touches ? ev.touches[0].clientX : ev.clientX;
+      const cy = ev.touches ? ev.touches[0].clientY : ev.clientY;
+      const dx = cx - startX;
+      const dy = cy - startY;
+
+      if (!mode) {
+        if (Math.abs(dx) > 3 && Math.abs(dx) > Math.abs(dy)) mode = 'time';
+        else if (Math.abs(dy) > 3 && Math.abs(dy) > Math.abs(dx)) mode = 'power';
+        else return;
+      }
+
+      if (mode === 'time') {
+        const msPx = total / W;
+        segs[idx].duration = Math.max(10, Math.round(startDur + dx * msPx));
+      } else if (mode === 'power') {
+        const powerDelta = Math.round(dy * (255 / H));
+        segs[idx].power = Math.max(0, Math.min(255, Math.round(startPower - powerDelta)));
+      }
+
+      segments = segs;
+      syncTA(segs);
+      drawTL(segs);
+      if (mode === 'time') buildHandles(segs);
+
+      const nt = segs.reduce((a, s) => a + s.duration + s.pause, 0);
+      document.getElementById('dbtotal').textContent = nt + 'ms';
+      document.getElementById('tlend').textContent = nt + 'ms';
+      document.getElementById('tlmid').textContent = Math.round(nt / 2) + 'ms';
+      document.getElementById('tdlbl').textContent = '· ' + nt + 'ms total';
+      updateCodePreview();
+    };
+
+    const onUp = () => {
+      mode = null;
+      document.removeEventListener('mousemove', onMove);
+      document.removeEventListener('mouseup', onUp);
+      document.removeEventListener('touchmove', onMove);
+      document.removeEventListener('touchend', onUp);
+      buildHandles(segs);
+    };
+
+    document.addEventListener('mousemove', onMove, { passive: false });
+    document.addEventListener('mouseup', onUp);
+    document.addEventListener('touchmove', onMove, { passive: false });
+    document.addEventListener('touchend', onUp);
+  };
+
+  el.addEventListener('mousedown', onDown);
+  el.addEventListener('touchstart', onDown, { passive: false });
+}
+
+/* Pause drag: horizontal only */
+function makePauseDraggable(el, idx, segs, W, total) {
+  let startX, startPause;
+
+  const onDown = e => {
+    e.preventDefault();
+    startX = e.touches ? e.touches[0].clientX : e.clientX;
+    startPause = segs[idx].pause;
+
+    const onMove = ev => {
+      const cx = ev.touches ? ev.touches[0].clientX : ev.clientX;
+      const dx = cx - startX;
+      const msPx = total / W;
+      segs[idx].pause = Math.max(0, Math.round(startPause + dx * msPx));
+
+      segments = segs;
+      syncTA(segs);
+      drawTL(segs);
+
+      const nt = segs.reduce((a, s) => a + s.duration + s.pause, 0);
+      document.getElementById('dbtotal').textContent = nt + 'ms';
+      document.getElementById('tlend').textContent = nt + 'ms';
+      document.getElementById('tlmid').textContent = Math.round(nt / 2) + 'ms';
+      document.getElementById('tdlbl').textContent = '· ' + nt + 'ms total';
+      updateCodePreview();
+    };
+
+    const onUp = () => {
+      document.removeEventListener('mousemove', onMove);
+      document.removeEventListener('mouseup', onUp);
+      document.removeEventListener('touchmove', onMove);
+      document.removeEventListener('touchend', onUp);
+      buildHandles(segs);
     };
 
     document.addEventListener('mousemove', onMove, { passive: false });

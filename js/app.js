@@ -29,8 +29,11 @@ function updateDisplay() {
   ta.className = 'ok2';
   segments = segs;
   const total = segs.reduce((a, s) => a + s.duration + s.pause, 0);
+  const segCount = segs.filter(s => s.duration > 0).length;
 
-  document.getElementById('dbsegs').textContent   = segs.filter(s => s.duration > 0).length;
+  document.getElementById('dbstep').textContent   = '0 / ' + segCount;
+  document.getElementById('dbstep').className     = 'dval';
+  document.getElementById('dbsegs').textContent   = segCount;
   document.getElementById('dbtotal').textContent  = total + 'ms';
   document.getElementById('tlend').textContent    = total + 'ms';
   document.getElementById('tlmid').textContent    = Math.round(total / 2) + 'ms';
@@ -71,6 +74,51 @@ function init() {
   }
 
   checkChanged();
+  initTotalScaler();
+}
+
+function initTotalScaler() {
+  const card = document.getElementById('dbtotal-card');
+  if (!card) return;
+
+  let startX, startTotal, startSegs;
+
+  const onDown = e => {
+    e.preventDefault();
+    startX = e.touches ? e.touches[0].clientX : e.clientX;
+    startSegs = segments.map(s => ({ ...s }));
+    startTotal = startSegs.reduce((a, s) => a + s.duration + s.pause, 0) || 1;
+
+    const onMove = ev => {
+      const cx = ev.touches ? ev.touches[0].clientX : ev.clientX;
+      const dx = cx - startX;
+      const ratio = Math.max(0.1, (startTotal + dx * 2) / startTotal);
+
+      segments = startSegs.map(s => ({
+        duration: Math.max(10, Math.round(s.duration * ratio)),
+        pause: Math.max(0, Math.round(s.pause * ratio)),
+        power: s.power !== undefined ? s.power : 255
+      }));
+
+      syncTA(segments);
+      updateDisplay();
+    };
+
+    const onUp = () => {
+      document.removeEventListener('mousemove', onMove);
+      document.removeEventListener('mouseup', onUp);
+      document.removeEventListener('touchmove', onMove);
+      document.removeEventListener('touchend', onUp);
+    };
+
+    document.addEventListener('mousemove', onMove, { passive: false });
+    document.addEventListener('mouseup', onUp);
+    document.addEventListener('touchmove', onMove, { passive: false });
+    document.addEventListener('touchend', onUp);
+  };
+
+  card.addEventListener('mousedown', onDown);
+  card.addEventListener('touchstart', onDown, { passive: false });
 }
 
 setTimeout(init, 60);

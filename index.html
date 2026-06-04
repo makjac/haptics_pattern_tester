@@ -36,6 +36,14 @@
         <button class="pb" onclick="loadP('doubleTap')">double tap</button>
         <button class="pb" onclick="loadP('heartbeat')">heartbeat</button>
       </div>
+      <div class="lbl" style="margin-top:10px"><i class="ti ti-flame" aria-hidden="true"></i> Intensity</div>
+      <div class="intensity-presets" id="ipresets">
+        <button class="ipb" onclick="setIntensity(0,this)">off</button>
+        <button class="ipb" onclick="setIntensity(64,this)">soft</button>
+        <button class="ipb" onclick="setIntensity(128,this)">med</button>
+        <button class="ipb" onclick="setIntensity(192,this)">hard</button>
+        <button class="ipb active" onclick="setIntensity(255,this)">max</button>
+      </div>
     </div>
 
     <!-- Controls -->
@@ -132,7 +140,7 @@
   <!-- Dashboard -->
   <div class="dbg">
     <div class="dcard"><div class="dval" id="dbstep">—</div><div class="dkey">Step</div></div>
-    <div class="dcard"><div class="dval" id="dbtotal">—</div><div class="dkey">Total ms</div></div>
+    <div class="dcard dcard-scalable" id="dbtotal-card"><div class="dval" id="dbtotal">—</div><div class="dkey">Total ms</div></div>
     <div class="dcard"><div class="dval" id="dbrem">—</div><div class="dkey">Remaining</div></div>
     <div class="dcard"><div class="dval" id="dbsegs">—</div><div class="dkey">Segments</div></div>
   </div>
