@@ -15,7 +15,7 @@ function updateDisplay() {
   if (err) {
     ta.className = ta.value.trim() ? 'err' : '';
     if (ta.value.trim()) setStatus('Błąd: ' + err, 'err');
-    else                 setStatus('Ready — wklej pattern lub wybierz preset', '');
+    else setStatus('Ready — wklej pattern lub wybierz preset', '');
 
     segments = [];
     drawTL([]);
@@ -31,13 +31,13 @@ function updateDisplay() {
   const total = segs.reduce((a, s) => a + s.duration + s.pause, 0);
   const segCount = segs.filter(s => s.duration > 0).length;
 
-  document.getElementById('dbstep').textContent   = '0 / ' + segCount;
-  document.getElementById('dbstep').className     = 'dval';
-  document.getElementById('dbsegs').textContent   = segCount;
-  document.getElementById('dbtotal').textContent  = total + 'ms';
-  document.getElementById('tlend').textContent    = total + 'ms';
-  document.getElementById('tlmid').textContent    = Math.round(total / 2) + 'ms';
-  document.getElementById('tdlbl').textContent    = '· ' + total + 'ms total';
+  document.getElementById('dbstep').textContent = '0 / ' + segCount;
+  document.getElementById('dbstep').className = 'dval';
+  document.getElementById('dbsegs').textContent = segCount;
+  document.getElementById('dbtotal').textContent = total + 'ms';
+  document.getElementById('tlend').textContent = total + 'ms';
+  document.getElementById('tlmid').textContent = Math.round(total / 2) + 'ms';
+  document.getElementById('tdlbl').textContent = '· ' + total + 'ms total';
 
   setStatus('OK — ' + segs.filter(s => s.duration > 0).length + ' segmenty, ' + total + 'ms', '');
   drawTL(segs);
@@ -75,6 +75,7 @@ function init() {
 
   checkChanged();
   initTotalScaler();
+  initTheme();
 }
 
 function initTotalScaler() {
@@ -119,6 +120,43 @@ function initTotalScaler() {
 
   card.addEventListener('mousedown', onDown);
   card.addEventListener('touchstart', onDown, { passive: false });
+}
+
+/* Theme toggle */
+const THEME_KEY = 'hpt-theme';
+let currentTheme = 'system';
+
+function getSystemTheme() {
+  return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+}
+
+function applyTheme(theme) {
+  const resolved = theme === 'system' ? getSystemTheme() : theme;
+  if (resolved === 'light') {
+    document.documentElement.setAttribute('data-theme', 'light');
+  } else {
+    document.documentElement.removeAttribute('data-theme');
+  }
+  if (typeof drawTL === 'function') drawTL(segments);
+}
+
+function cycleTheme() {
+  const order = ['light', 'dark'];
+  const idx = order.indexOf(currentTheme);
+  currentTheme = order[(idx + 1) % order.length];
+  try { localStorage.setItem(THEME_KEY, currentTheme); } catch (e) { }
+  applyTheme(currentTheme);
+}
+
+function initTheme() {
+  let saved;
+  try { saved = localStorage.getItem(THEME_KEY); } catch (e) { }
+  currentTheme = saved || 'system';
+  applyTheme(currentTheme);
+
+  window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => {
+    if (currentTheme === 'system') applyTheme('system');
+  });
 }
 
 setTimeout(init, 60);

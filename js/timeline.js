@@ -1,5 +1,9 @@
 /* Timeline canvas & draggable handles */
 
+function isLightTheme() {
+  return document.documentElement.getAttribute('data-theme') === 'light';
+}
+
 function drawTL(segs, activeIdx = -1) {
   const wrap   = document.getElementById('tlwrap');
   const canvas = document.getElementById('tlc');
@@ -16,6 +20,7 @@ function drawTL(segs, activeIdx = -1) {
 
   const total = segs.reduce((a, s) => a + s.duration + s.pause, 0) || 1;
   let x = 0;
+  const light = isLightTheme();
 
   segs.forEach((seg, idx) => {
     if (seg.duration > 0) {
@@ -23,7 +28,9 @@ function drawTL(segs, activeIdx = -1) {
       const alpha = 0.3 + 0.7 * (seg.power / 255);
       const act   = idx === activeIdx;
 
-      ctx.fillStyle = act ? `rgba(100,160,255,${alpha})` : `rgba(79,124,255,${alpha})`;
+      ctx.fillStyle = act
+        ? (light ? `rgba(60,120,240,${alpha})` : `rgba(100,160,255,${alpha})`)
+        : (light ? `rgba(40,100,220,${alpha})` : `rgba(79,124,255,${alpha})`);
       const bh = Math.max(8, Math.round((seg.power / 255) * (H - 16)));
       const y  = H - bh - 4;
       ctx.beginPath();
@@ -31,7 +38,9 @@ function drawTL(segs, activeIdx = -1) {
       ctx.fill();
 
       if (w > 28) {
-        ctx.fillStyle = act ? 'rgba(220,235,255,.9)' : 'rgba(160,190,255,.75)';
+        ctx.fillStyle = act
+          ? (light ? 'rgba(255,255,255,.95)' : 'rgba(220,235,255,.9)')
+          : (light ? 'rgba(255,255,255,.9)' : 'rgba(160,190,255,.75)');
         ctx.font = '10px JetBrains Mono,monospace';
         ctx.textAlign = 'center';
         ctx.fillText(seg.duration + 'ms', x + w / 2, y + bh / 2 + 4);
@@ -41,13 +50,13 @@ function drawTL(segs, activeIdx = -1) {
 
     if (seg.pause > 0) {
       const pw = Math.max(1, (seg.pause / total) * W);
-      ctx.fillStyle = 'rgba(42,48,80,.5)';
+      ctx.fillStyle = light ? 'rgba(160,170,200,.4)' : 'rgba(42,48,80,.5)';
       ctx.beginPath();
       ctx.roundRect(x + 1, H - 10, pw - 2, 4, 2);
       ctx.fill();
 
       if (pw > 22) {
-        ctx.fillStyle = 'rgba(74,84,112,.8)';
+        ctx.fillStyle = light ? 'rgba(100,110,140,.8)' : 'rgba(74,84,112,.8)';
         ctx.font = '9px JetBrains Mono,monospace';
         ctx.textAlign = 'center';
         ctx.fillText(seg.pause + 'ms', x + pw / 2, H - 2);

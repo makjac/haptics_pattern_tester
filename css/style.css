@@ -26,6 +26,61 @@ html, body {
   --t2:   #8892b0;
   --t3:   #4a5470;
   --mono: 'JetBrains Mono', monospace;
+
+  --badge-b-bg: #1a2560;
+  --badge-b-bd: #2a3580;
+  --badge-g-bg: #0a2820;
+  --badge-g-bd: #0d4030;
+  --badge-r-bg: #300a0a;
+  --badge-r-bd: #500a0a;
+
+  --hover-pb-bg: #0f1630;
+  --hover-ipb-bg: #150f30;
+  --active-ipb-bg: #1a1040;
+  --hover-bplay-bg: #3d6aee;
+  --playing-bplay-bg: #1a2560;
+  --on-bloop-bg: #150f30;
+  --changed-reset-bg: #1a0f08;
+  --hover-dcard-bg: #151030;
+  --active-dcard-bg: #1a2040;
+  --active-ebtn-bg: #0d1530;
+  --dh-line-bg: rgba(255,255,255,.7);
+}
+
+[data-theme="light"] {
+  --bg:   #f5f6f8;
+  --s1:   #e8eaf0;
+  --s2:   #dde0ea;
+  --s3:   #d0d4e0;
+  --b1:   #c0c5d5;
+  --b2:   #a0a8c0;
+  --ac:   #2b5ce6;
+  --ac2:  #6b3de6;
+  --ok:   #00a884;
+  --warn: #e65a2b;
+  --danger: #e02e4e;
+  --t1:   #1a1d26;
+  --t2:   #4a5068;
+  --t3:   #7a8098;
+
+  --badge-b-bg: #d0daf8;
+  --badge-b-bd: #a0b0e8;
+  --badge-g-bg: #d0f0e8;
+  --badge-g-bd: #a0d8c8;
+  --badge-r-bg: #f8d0d8;
+  --badge-r-bd: #e8a0a8;
+
+  --hover-pb-bg: #e8ecf8;
+  --hover-ipb-bg: #f0e8f8;
+  --active-ipb-bg: #ede4f8;
+  --hover-bplay-bg: #1a4ec0;
+  --playing-bplay-bg: #e0e8f8;
+  --on-bloop-bg: #f0e8f8;
+  --changed-reset-bg: #f8f0e8;
+  --hover-dcard-bg: #e8e4f8;
+  --active-dcard-bg: #e0e0f8;
+  --active-ebtn-bg: #e8ecf8;
+  --dh-line-bg: rgba(0,0,0,.4);
 }
 
 body {
@@ -109,6 +164,26 @@ body {
   min-width: 120px;
 }
 
+.tbtn {
+  background: transparent;
+  border: 1px solid var(--b1);
+  border-radius: 5px;
+  color: var(--t2);
+  cursor: pointer;
+  padding: 4px 8px;
+  font-size: 14px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: all .12s;
+  font-family: var(--mono);
+}
+
+.tbtn:hover {
+  border-color: var(--ac);
+  color: var(--ac);
+}
+
 .bdg {
   font-size: 10px;
   padding: 2px 8px;
@@ -118,9 +193,9 @@ body {
   white-space: nowrap;
 }
 
-.bdg-b { background: #1a2560; color: var(--ac);   border: 1px solid #2a3580; }
-.bdg-g { background: #0a2820; color: var(--ok);   border: 1px solid #0d4030; }
-.bdg-r { background: #300a0a; color: var(--danger); border: 1px solid #500a0a; }
+.bdg-b { background: var(--badge-b-bg); color: var(--ac);   border: 1px solid var(--badge-b-bd); }
+.bdg-g { background: var(--badge-g-bg); color: var(--ok);   border: 1px solid var(--badge-g-bd); }
+.bdg-r { background: var(--badge-r-bg); color: var(--danger); border: 1px solid var(--badge-r-bd); }
 
 /* Two-column layout */
 .two-col {
@@ -191,7 +266,7 @@ textarea.ok2   { border-color: var(--ok); }
 .pb:hover {
   border-color: var(--ac);
   color: var(--ac);
-  background: #0f1630;
+  background: var(--hover-pb-bg);
 }
 
 /* Intensity presets */
@@ -218,13 +293,13 @@ textarea.ok2   { border-color: var(--ok); }
 .ipb:hover {
   border-color: var(--ac2);
   color: var(--ac2);
-  background: #150f30;
+  background: var(--hover-ipb-bg);
 }
 
 .ipb.active {
   border-color: var(--ac2);
   color: var(--ac2);
-  background: #1a1040;
+  background: var(--active-ipb-bg);
 }
 
 /* Controls */
@@ -273,10 +348,10 @@ textarea.ok2   { border-color: var(--ok); }
   color: #fff;
 }
 
-.bplay:hover { background: #3d6aee; }
+.bplay:hover { background: var(--hover-bplay-bg); }
 
 .bplay.playing {
-  background: #1a2560;
+  background: var(--playing-bplay-bg);
   border-color: var(--ac);
   color: var(--ac);
 }
@@ -302,7 +377,7 @@ textarea.ok2   { border-color: var(--ok); }
 .bloop.on {
   border-color: var(--ac2);
   color: var(--ac2);
-  background: #150f30;
+  background: var(--on-bloop-bg);
 }
 
 .breset-all {
@@ -324,7 +399,7 @@ textarea.ok2   { border-color: var(--ok); }
 .breset-all.changed {
   border-color: var(--warn);
   color: var(--warn);
-  background: #1a0f08;
+  background: var(--changed-reset-bg);
 }
 
 /* Range slider */
@@ -459,7 +534,7 @@ input[type=range]::-webkit-slider-thumb {
 .tl-wrap {
   position: relative;
   flex: 1;
-  height: 72px;
+  height: 80px;
   background: var(--bg);
   border: 1px solid var(--b1);
   border-radius: 5px 0 0 5px;
@@ -512,7 +587,7 @@ canvas#tlc {
 
 .drag-handle:hover .dh-line,
 .drag-handle.dg .dh-line {
-  background: rgba(255,255,255,.7);
+  background: var(--dh-line-bg);
 }
 
 .drag-handle.left-h  { cursor: w-resize; }
@@ -671,11 +746,11 @@ canvas#tlc {
 }
 .dcard-scalable:hover {
   border-color: var(--ac2);
-  background: #151030;
+  background: var(--hover-dcard-bg);
 }
 .dcard-scalable:active {
   border-color: var(--ac);
-  background: #1a2040;
+  background: var(--active-dcard-bg);
 }
 
 /* Export */
@@ -708,7 +783,7 @@ canvas#tlc {
 .ebtn.active {
   border-color: var(--ac);
   color: var(--ac);
-  background: #0d1530;
+  background: var(--active-ebtn-bg);
 }
 
 .emsg {
