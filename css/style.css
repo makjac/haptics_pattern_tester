@@ -6,6 +6,10 @@
   padding: 0;
 }
 
+html, body {
+  height: 100%;
+}
+
 :root {
   --bg:   #0d0f12;
   --s1:   #151820;
@@ -30,6 +34,8 @@ body {
   font-family: var(--mono);
   font-size: 13px;
   line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 .app {
@@ -37,10 +43,15 @@ body {
   max-width: 960px;
   margin: 0 auto;
   min-height: 100vh;
+  padding: 0 8px;
 }
 
 @media (min-width: 1200px) {
-  .app { max-width: 1200px; }
+  .app { max-width: 1200px; padding: 0 16px; }
+}
+
+@media (min-width: 1600px) {
+  .app { max-width: 1400px; }
 }
 
 /* Header */
@@ -64,6 +75,7 @@ body {
   font-size: 11px;
   color: var(--t3);
   flex: 1;
+  min-width: 120px;
 }
 
 .bdg {
@@ -72,6 +84,7 @@ body {
   border-radius: 4px;
   font-weight: 700;
   letter-spacing: .04em;
+  white-space: nowrap;
 }
 
 .bdg-b { background: #1a2560; color: var(--ac);   border: 1px solid #2a3580; }
@@ -85,23 +98,12 @@ body {
   border-bottom: 1px solid var(--b1);
 }
 
-@media (max-width: 580px) {
-  .two-col { grid-template-columns: 1fr; }
-}
-
 .pnl {
   padding: 14px 16px;
 }
 
 .pnl:first-child {
   border-right: 1px solid var(--b1);
-}
-
-@media (max-width: 580px) {
-  .pnl:first-child {
-    border-right: none;
-    border-bottom: 1px solid var(--b1);
-  }
 }
 
 .lbl {
@@ -153,6 +155,7 @@ textarea.ok2   { border-color: var(--ok); }
   padding: 3px 8px;
   cursor: pointer;
   transition: all .12s;
+  touch-action: manipulation;
 }
 
 .pb:hover {
@@ -179,6 +182,7 @@ textarea.ok2   { border-color: var(--ok); }
   padding: 3px 8px;
   cursor: pointer;
   transition: all .12s;
+  touch-action: manipulation;
 }
 
 .ipb:hover {
@@ -230,6 +234,7 @@ textarea.ok2   { border-color: var(--ok); }
   letter-spacing: .03em;
   user-select: none;
   white-space: nowrap;
+  touch-action: manipulation;
 }
 
 .bplay {
@@ -608,10 +613,6 @@ canvas#tlc {
   border-bottom: 1px solid var(--b1);
 }
 
-@media (max-width: 400px) {
-  .dbg { grid-template-columns: repeat(2, 1fr); }
-}
-
 .dcard {
   background: var(--s1);
   border: 1px solid var(--b1);
@@ -673,6 +674,7 @@ canvas#tlc {
   padding: 4px 10px;
   cursor: pointer;
   transition: all .12s;
+  touch-action: manipulation;
 }
 
 .ebtn:hover,
@@ -700,6 +702,7 @@ canvas#tlc {
   overflow-x: auto;
   line-height: 1.75;
   min-height: 42px;
+  word-break: break-word;
 }
 
 .code-prev .fn  { color: #82aaff; }
@@ -733,33 +736,6 @@ canvas#tlc {
   color: var(--t3);
 }
 
-/* Mobile responsiveness */
-@media (max-width: 580px) {
-  body { font-size: 15px; }
-  .hdr { padding: 10px 12px; gap: 6px; }
-  .htitle { font-size: 15px; }
-  .hsub { font-size: 13px; }
-  .bdg { font-size: 12px; padding: 3px 10px; }
-  .pnl { padding: 12px 14px; }
-  textarea { min-height: 140px; font-size: 14px; }
-  .btn { padding: 8px 14px; font-size: 14px; }
-  .pb { font-size: 13px; padding: 5px 10px; }
-  .clbl { font-size: 13px; min-width: 52px; }
-  .tlbl { font-size: 13px; }
-  .sval-txt { font-size: 13px; min-width: 36px; }
-  .sval-input { font-size: 13px; width: 48px; height: 20px; }
-  input[type=range] { height: 6px; }
-  input[type=range]::-webkit-slider-thumb { width: 18px; height: 18px; }
-  .dval { font-size: 18px; }
-  .dkey { font-size: 11px; }
-  .tl-wrap { height: 88px; }
-  .tl-add-btn span, .tl-rm-btn span { font-size: 10px; }
-  .tl-add-btn i, .tl-rm-btn i { font-size: 16px; }
-  .ebtn { font-size: 13px; padding: 5px 12px; }
-  .code-prev { font-size: 12px; }
-  .smsg { font-size: 12px; }
-}
-
 /* Accessibility */
 .sr-only {
   position: absolute;
@@ -767,4 +743,93 @@ canvas#tlc {
   height: 1px;
   overflow: hidden;
   clip: rect(0, 0, 0, 0);
+}
+
+/* ============================================================
+   RESPONSIVE BREAKPOINTS
+   ============================================================ */
+
+/* Tablet / small laptop (max-width: 900px) */
+@media (max-width: 900px) {
+  .dbg { grid-template-columns: repeat(2, 1fr); }
+}
+
+/* Mobile (max-width: 580px) */
+@media (max-width: 580px) {
+  .app { padding: 0 4px; }
+
+  body { font-size: 15px; }
+
+  .hdr {
+    padding: 10px 12px;
+    gap: 6px;
+  }
+  .htitle { font-size: 15px; }
+  .hsub {
+    font-size: 12px;
+    flex: 1 1 100%;
+    order: 3;
+    margin-top: 2px;
+  }
+  .bdg { font-size: 11px; padding: 3px 8px; }
+
+  .two-col { grid-template-columns: 1fr; }
+  .pnl:first-child {
+    border-right: none;
+    border-bottom: 1px solid var(--b1);
+  }
+  .pnl { padding: 12px; }
+
+  textarea { min-height: 120px; font-size: 14px; }
+
+  .btn { padding: 9px 16px; font-size: 14px; }
+  .pb, .ipb { font-size: 13px; padding: 6px 12px; }
+  .clbl { font-size: 13px; min-width: 52px; }
+  .tlbl { font-size: 13px; }
+
+  .sval-txt { font-size: 13px; min-width: 36px; }
+  .sval-input { font-size: 13px; width: 48px; height: 22px; }
+
+  input[type=range] { height: 6px; }
+  input[type=range]::-webkit-slider-thumb {
+    width: 20px;
+    height: 20px;
+  }
+
+  .tog {
+    width: 36px;
+    height: 20px;
+  }
+  .tog::after {
+    width: 16px;
+    height: 16px;
+  }
+  .tog.on::after { left: 18px; }
+
+  .tl-wrap { height: 100px; }
+  .tl-actions { width: 48px; }
+  .tl-add-btn span, .tl-rm-btn span { font-size: 11px; }
+  .tl-add-btn i, .tl-rm-btn i { font-size: 18px; }
+
+  .dval { font-size: 20px; }
+  .dkey { font-size: 11px; }
+  .dcard { padding: 10px 12px; }
+
+  .ebtn { font-size: 13px; padding: 6px 12px; }
+  .code-prev { font-size: 12px; }
+  .smsg { font-size: 12px; }
+}
+
+/* Very small phones (max-width: 360px) */
+@media (max-width: 360px) {
+  body { font-size: 14px; }
+  .hdr { padding: 8px 10px; }
+  .htitle { font-size: 14px; }
+  .pnl { padding: 10px; }
+  .btn { padding: 8px 12px; font-size: 13px; }
+  .pb, .ipb { font-size: 12px; padding: 5px 8px; }
+  .tl-wrap { height: 90px; }
+  .tl-actions { width: 42px; }
+  .dval { font-size: 18px; }
+  .dbg { gap: 6px; padding: 10px; }
 }
