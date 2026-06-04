@@ -65,14 +65,11 @@ function syncTA(segs) {
   }
 
   const ext = [];
-  segs.forEach((s, idx) => {
-    if (idx === 0 && s.pause > 0) {
-      ext.push({ d: s.pause, p: 0 });
-    }
+  segs.forEach((s) => {
     if (s.duration > 0) {
       ext.push({ d: s.duration, p: s.power });
     }
-    if (s.pause > 0 && idx > 0) {
+    if (s.pause > 0) {
       ext.push({ d: s.pause, p: 0 });
     }
   });
