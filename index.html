@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Haptics Pattern Tester</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<h2 class="sr-only">Haptics Pattern Tester v3 — responsive haptic pattern editor with draggable timeline segments, inline value editing, and code export</h2>
+
+<div class="app">
+
+  <!-- Header -->
+  <div class="hdr">
+    <span class="bdg bdg-b">HAPTICS</span>
+    <span class="htitle">Pattern Tester</span>
+    <span class="hsub">Flutter · WebAudio · Vibration API</span>
+    <span class="bdg bdg-g" id="astat">AUDIO OK</span>
+  </div>
+
+  <!-- Main grid: input + controls -->
+  <div class="two-col">
+
+    <!-- Pattern input -->
+    <div class="pnl">
+      <div class="lbl"><i class="ti ti-code" aria-hidden="true"></i> Pattern input</div>
+      <textarea id="ta" spellcheck="false"
+        placeholder='[0, 100, 50, 200, 80, 150]&#10;&#10;lub extended:&#10;[{"d":100,"p":255},{"d":50,"p":0},{"d":200,"p":180}]'></textarea>
+      <div class="presets">
+        <button class="pb" onclick="loadP('message')">message</button>
+        <button class="pb" onclick="loadP('error')">error</button>
+        <button class="pb" onclick="loadP('call')">call</button>
+        <button class="pb" onclick="loadP('success')">success</button>
+        <button class="pb" onclick="loadP('doubleTap')">double tap</button>
+        <button class="pb" onclick="loadP('heartbeat')">heartbeat</button>
+      </div>
+    </div>
+
+    <!-- Controls -->
+    <div class="pnl">
+      <div class="lbl"><i class="ti ti-settings" aria-hidden="true"></i> Controls</div>
+      <div class="ctrl-grid">
+
+        <div class="crow">
+          <button class="btn bplay" id="pbtn" onclick="togglePlay()">
+            <i class="ti ti-player-play" id="pico" aria-hidden="true"></i>
+            <span id="plbl">Play</span>
+          </button>
+          <button class="btn bstop" onclick="stopPb()">
+            <i class="ti ti-player-stop" aria-hidden="true"></i>Stop
+          </button>
+          <button class="btn bloop" id="lbtn" onclick="toggleLoop()">
+            <i class="ti ti-repeat" aria-hidden="true"></i>Loop
+          </button>
+        </div>
+
+        <div class="crow">
+          <span class="clbl">Volume</span>
+          <input type="range" id="vsldr" min="0" max="100" value="70" step="1" oninput="onVol(this.value)">
+          <div class="inline-val">
+            <span class="sval-txt" id="vvaltxt" onclick="startEdit('vol')" title="kliknij aby edytować">70%</span>
+            <input class="sval-input" id="vinput" style="display:none" type="text"
+              onblur="commitEdit('vol')" onkeydown="editKey(event,'vol')">
+            <button class="sreset-btn" id="vrst" onclick="resetCtrl('vol')" title="reset">
+              <i class="ti ti-refresh" aria-hidden="true"></i>
+            </button>
+          </div>
+        </div>
+
+        <div class="crow">
+          <span class="clbl">Speed</span>
+          <input type="range" id="ssldr" min="25" max="400" value="100" step="5" oninput="onSpd(this.value)">
+          <div class="inline-val">
+            <span class="sval-txt" id="svaltxt" onclick="startEdit('spd')" title="kliknij aby edytować">1×</span>
+            <input class="sval-input" id="sinput" style="display:none" type="text"
+              onblur="commitEdit('spd')" onkeydown="editKey(event,'spd')">
+            <button class="sreset-btn" id="srst" onclick="resetCtrl('spd')" title="reset">
+              <i class="ti ti-refresh" aria-hidden="true"></i>
+            </button>
+          </div>
+        </div>
+
+        <div class="crow">
+          <span class="clbl">Vibrate</span>
+          <div class="tog-w">
+            <div class="tog on" id="vtog" onclick="toggleVib()" role="switch" aria-label="Vibration"></div>
+            <span class="tlbl" id="vlbl">on</span>
+          </div>
+          <span class="clbl" style="margin-left:8px">Sound</span>
+          <div class="tog-w">
+            <div class="tog on" id="stog" onclick="toggleSnd()" role="switch" aria-label="Sound"></div>
+            <span class="tlbl" id="slbl">on</span>
+          </div>
+        </div>
+
+        <button class="btn breset-all" id="rst-all" onclick="resetAll()">
+          <i class="ti ti-refresh" aria-hidden="true"></i> Reset all controls
+        </button>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- Timeline -->
+  <div class="tl-sec">
+    <div class="lbl">
+      <i class="ti ti-chart-bar" aria-hidden="true"></i> Timeline
+      <span id="tdlbl" style="margin-left:6px;color:var(--t3);font-size:10px"></span>
+    </div>
+    <div class="tl-outer">
+      <div class="tl-wrap" id="tlwrap">
+        <canvas id="tlc"></canvas>
+        <div class="tl-cursor" id="tlcur"></div>
+        <div id="handles"></div>
+      </div>
+      <div class="tl-actions">
+        <div class="tl-add-btn" id="addBtn" onclick="addSegment()" title="Dodaj segment lub pauzę">
+          <i class="ti ti-plus" aria-hidden="true"></i>
+          <span>add</span>
+        </div>
+        <div class="tl-rm-btn" id="rmBtn" onclick="removeLastSegment()" title="Usuń ostatni czas">
+          <i class="ti ti-minus" aria-hidden="true"></i>
+          <span>rm</span>
+        </div>
+      </div>
+    </div>
+    <div class="tl-labels"><span>0ms</span><span id="tlmid"></span><span id="tlend">—</span></div>
+  </div>
+
+  <!-- Dashboard -->
+  <div class="dbg">
+    <div class="dcard"><div class="dval" id="dbstep">—</div><div class="dkey">Step</div></div>
+    <div class="dcard"><div class="dval" id="dbtotal">—</div><div class="dkey">Total ms</div></div>
+    <div class="dcard"><div class="dval" id="dbrem">—</div><div class="dkey">Remaining</div></div>
+    <div class="dcard"><div class="dval" id="dbsegs">—</div><div class="dkey">Segments</div></div>
+  </div>
+
+  <!-- Export -->
+  <div class="exp-sec">
+    <div class="lbl"><i class="ti ti-download" aria-hidden="true"></i> Export</div>
+    <div class="exp-btns">
+      <button class="ebtn active" id="efl" onclick="doExport('flutter')">Flutter list</button>
+      <button class="ebtn" id="eex" onclick="doExport('extended')">Extended JSON</button>
+      <button class="ebtn" id="esh" onclick="doExport('share')">Share link</button>
+      <span class="emsg" id="emsg"></span>
+    </div>
+    <div class="code-prev" id="cprev">—</div>
+  </div>
+
+  <!-- Status bar -->
+  <div class="sbar">
+    <div class="sdot" id="sdot"></div>
+    <span class="smsg" id="smsg">Ready — wklej pattern lub wybierz preset</span>
+  </div>
+
+</div>
+
+<!-- Scripts (order matters for globals) -->
+<script src="js/presets.js"></script>
+<script src="js/parser.js"></script>
+<script src="js/timeline.js"></script>
+<script src="js/playback.js"></script>
+<script src="js/controls.js"></script>
+<script src="js/export.js"></script>
+<script src="js/app.js"></script>
+
+</body>
+</html>
