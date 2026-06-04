@@ -82,9 +82,12 @@ body {
 /* Header */
 .hdr {
   display: block;
+  width: 100%;
+  border-bottom: 1px solid var(--b1);
 }
 
 .hdr .wrap {
+  border-bottom: none;
   display: flex;
   align-items: center;
   gap: 8px;
@@ -740,8 +743,30 @@ canvas#tlc {
   padding: 6px 16px;
   display: flex;
   align-items: center;
+  justify-content: space-between;
   gap: 10px;
   background: var(--s1);
+}
+
+.sbar-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.sauth {
+  font-size: 11px;
+  color: var(--t3);
+}
+
+.sauth a {
+  color: var(--t3);
+  text-decoration: none;
+  transition: color .12s;
+}
+
+.sauth a:hover {
+  color: var(--ac);
 }
 
 .sdot {

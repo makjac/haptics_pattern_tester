@@ -9,7 +9,7 @@
 </p>
 
 <p align="center">
-  <a href="https://maks.github.io/Haptics_Pattern_Tester/" target="_blank"><strong>🚀 Live Demo</strong></a> ·
+  <a href="https://makjac.github.io/haptics_pattern_tester/" target="_blank"><strong>🚀 Live Demo</strong></a> ·
   <a href="#features">Features</a> ·
   <a href="#usage">Usage</a> ·
   <a href="#export">Export</a>
@@ -23,7 +23,7 @@
   <img src="https://img.shields.io/badge/webaudio-supported-orange.svg?style=flat-square" alt="WebAudio">
   <img src="https://img.shields.io/badge/responsive-yes-success.svg?style=flat-square" alt="Responsive">
   <img src="https://img.shields.io/badge/build-none-ff4757.svg?style=flat-square" alt="No Build Step">
-  <img src="https://img.shields.io/github/languages/top/maks/Haptics_Pattern_Tester.svg?style=flat-square" alt="Top Language">
+  <img src="https://img.shields.io/github/languages/top/makjac/haptics_pattern_tester.svg?style=flat-square" alt="Top Language">
   <img src="https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square" alt="PRs Welcome">
 </p>
 
@@ -49,7 +49,7 @@
 
 ### Quick Start
 
-1. **Open the app** — visit the [live demo](https://maks.github.io/Haptics_Pattern_Tester/) or open `index.html` locally.
+1. **Open the app** — visit the [live demo](https://makjac.github.io/haptics_pattern_tester/) or open `index.html` locally.
 2. **Pick a preset** — choose from `message`, `error`, `call`, `success`, `double tap`, or `heartbeat`.
 3. **Edit the pattern** — drag timeline segments or edit the JSON directly.
 4. **Preview** — hit **Play** to hear/feel the pattern.
@@ -117,7 +117,7 @@ Vibration.vibrate(
 ### Share Link
 
 ```url
-https://maks.github.io/Haptics_Pattern_Tester/?p=%5B0%2C100%2C50%2C200%5D
+https://makjac.github.io/haptics_pattern_tester/?p=%5B0%2C100%2C50%2C200%5D
 ```
 
 - Copy a clean URL anyone can open to see your exact pattern.
@@ -151,7 +151,7 @@ No build step required.
 
 ```bash
 # Clone
-git clone https://github.com/maks/Haptics_Pattern_Tester.git
+git clone https://github.com/makjac/haptics_pattern_tester.git
 
 # Open locally
 cd Haptics_Pattern_Tester
@@ -169,7 +169,7 @@ npx serve .
 1. Fork or push this repo to GitHub.
 2. Go to **Settings → Pages**.
 3. Select **Deploy from a branch** → `main` → `/ (root)`.
-4. Your site will be live at `https://<username>.github.io/Haptics_Pattern_Tester/`.
+4. Your site will be live at `https://<username>.github.io/haptics_pattern_tester/`.
 
 > **SEO ready** — includes `robots.txt`, `sitemap.xml`, Open Graph tags, Twitter Cards, and JSON-LD structured data.
 
