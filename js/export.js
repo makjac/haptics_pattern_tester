@@ -52,7 +52,7 @@ function doExport(type, silent) {
     const ext = [];
     segs.forEach(s => {
       if (s.duration > 0) ext.push({ d: s.duration, p: s.power });
-      if (s.pause > 0)    ext.push({ d: s.pause, p: 0 });
+      if (s.pause > 0) ext.push({ d: s.pause, p: 0 });
     });
     code = `// Extended format (d=duration ms, p=power 0-255)\n${JSON.stringify(ext, null, 2)}`;
   } else {
@@ -63,7 +63,7 @@ function doExport(type, silent) {
   prev.innerHTML = hl(code);
 
   if (!silent) {
-    navigator.clipboard.writeText(code.replace(/<[^>]+>/g, '')).catch(() => {});
+    navigator.clipboard.writeText(code.replace(/<[^>]+>/g, '')).catch(() => { });
     const msg = document.getElementById('emsg');
     msg.textContent = 'Copied!';
     msg.style.opacity = '1';

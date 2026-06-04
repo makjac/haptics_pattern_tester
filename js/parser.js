@@ -12,7 +12,7 @@ function parsePat(raw) {
   }
 
   if (!Array.isArray(p)) return { segs: [], err: 'Musi być array' };
-  if (!p.length)          return { segs: [], err: 'Pusty array' };
+  if (!p.length) return { segs: [], err: 'Pusty array' };
 
   if (typeof p[0] === 'object' && p[0] !== null) {
     const s = [];

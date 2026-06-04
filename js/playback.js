@@ -16,7 +16,7 @@ function playSound(power, duration) {
   if (!sndOn || power === 0) return;
   const ac = ga();
   const freq = 80 + (power / 255) * 720;
-  const gv   = (power / 255) * vol;
+  const gv = (power / 255) * vol;
   const o = ac.createOscillator();
   const g = ac.createGain();
 
@@ -52,7 +52,7 @@ function runPb() {
   const vp = [];
   segs.forEach(s => {
     if (s.duration > 0) vp.push(s.duration);
-    if (s.pause > 0)    vp.push(s.pause);
+    if (s.pause > 0) vp.push(s.pause);
   });
   if (vibOn && navigator.vibrate) navigator.vibrate(vp);
 
@@ -84,7 +84,7 @@ function runPb() {
   }, t / speed + 50));
 
   const tick = () => {
-    const el  = (performance.now() - playStart) * speed;
+    const el = (performance.now() - playStart) * speed;
     const pct = Math.min(el / total, 1);
     const cur = document.getElementById('tlcur');
     const wrap = document.getElementById('tlwrap');

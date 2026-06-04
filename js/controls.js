@@ -1,10 +1,10 @@
 /* UI controls: toggles, sliders, inline value editing */
 
 let looping = false;
-let vibOn   = true;
-let sndOn   = true;
-let vol     = 0.7;
-let speed   = 1.0;
+let vibOn = true;
+let sndOn = true;
+let vol = 0.7;
+let speed = 1.0;
 let sensitivity = 255;
 
 const VOL_DEF = 70;
@@ -97,7 +97,7 @@ function commitEdit(which) {
 }
 
 function editKey(e, which) {
-  if (e.key === 'Enter')  commitEdit(which);
+  if (e.key === 'Enter') commitEdit(which);
   if (e.key === 'Escape') {
     if (which === 'vol') {
       document.getElementById('vinput').style.display = 'none';
