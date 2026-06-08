@@ -41,3 +41,14 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v5
+
+      - name: Ping search engines
+        if: success()
+        run: |
+          echo "Pinging Bing..."
+          curl -sS "https://www.bing.com/ping?sitemap=https://makjac.github.io/haptics_pattern_tester/sitemap.xml" || true
+          echo ""
+          echo "Pinging Yandex..."
+          curl -sS "https://webmaster.yandex.ru/ping?sitemap=https://makjac.github.io/haptics_pattern_tester/sitemap.xml" || true
+          echo ""
+          echo "Ping complete."

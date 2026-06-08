@@ -1,3 +1,16 @@
 User-agent: *
 Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+User-agent: DuckDuckBot
+Allow: /
+
+User-agent: YandexBot
+Allow: /
+
+User-agent: Baiduspider
+Allow: /
+
 Sitemap: https://makjac.github.io/haptics_pattern_tester/sitemap.xml

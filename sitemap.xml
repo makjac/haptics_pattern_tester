@@ -1,9 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1"
+        xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
     <loc>https://makjac.github.io/haptics_pattern_tester/</loc>
     <lastmod>2026-06-08</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://makjac.github.io/haptics_pattern_tester/" />
+    <image:image>
+      <image:loc>https://makjac.github.io/haptics_pattern_tester/favicon-512x512.png</image:loc>
+      <image:title>Haptics Pattern Tester Logo</image:title>
+      <image:caption>Logo of Haptics Pattern Tester web application</image:caption>
+    </image:image>
   </url>
 </urlset>
