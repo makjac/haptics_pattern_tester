@@ -1,7 +1,7 @@
 {
   "name": "Haptics Pattern Tester",
   "short_name": "HapticsTester",
-  "description": "Free online haptic pattern editor and tester. Design vibration patterns with a draggable timeline, preview on web, and export to Flutter, Web Audio API, and Vibration API.",
+  "description": "Free Vibration Pattern Tester and haptics pattern editor. Design, preview, and export vibration patterns for Flutter vibration, Flutter haptics, Web Audio API, and Vibration API.",
   "start_url": "/haptics_pattern_tester/",
   "display": "standalone",
   "background_color": "#0d0f12",

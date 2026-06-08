@@ -1,11 +1,11 @@
-# Haptics Pattern Tester
+# Vibration Pattern Tester — Free Haptics Pattern Editor
 
 <p align="center">
   <img src="favicon.svg" width="64" height="64" alt="Haptics Pattern Tester logo">
 </p>
 
 <p align="center">
-  <strong>Free online haptic pattern editor with draggable timeline, live preview, and multi-platform export.</strong>
+  <strong>Free online Vibration Pattern Tester and haptics pattern editor with draggable timeline, live preview, and multi-platform export.</strong>
 </p>
 
 <p align="center">
@@ -33,11 +33,11 @@
 
 | Feature | Description |
 | --------- | ------------- |
-| 🎚️ **Draggable Timeline** | Click and drag segments horizontally to change duration, vertically to change intensity (0–255). |
+| 🎚️ **Draggable Timeline** | Click and drag segments horizontally to change duration, vertically to change intensity (0–255). Perfect for designing any vibration pattern. |
 | 🔊 **Live Preview** | Hear and feel the pattern instantly using the Web Audio API and Vibration API. |
 | ⚡ **Total Time Scaler** | Drag the **Total ms** dashboard card to proportionally scale the entire pattern. |
 | 🎛️ **Intensity Presets** | One-click intensity adjustments: `off` / `soft` / `med` / `hard` / `max`. |
-| 📋 **Multi-Platform Export** | Copy-ready code for Flutter, Extended JSON, and Shareable URLs. |
+| 📋 **Multi-Platform Export** | Copy-ready code for Flutter vibration, Flutter haptics, Extended JSON, and Shareable URLs. |
 | 🔗 **Deep Linking** | Share patterns via URL — anyone opening the link sees your exact pattern. |
 | 📱 **Mobile First** | Fully responsive with touch-friendly controls and larger targets on phones. |
 | 🎨 **Dark Theme** | Easy on the eyes with a carefully tuned dark color palette. |
@@ -45,11 +45,15 @@
 
 ---
 
+## What is Vibration Pattern Tester?
+
+**Vibration Pattern Tester** is a free browser-based tool for developers who work with haptics. It lets you design, preview, and export **vibration patterns** for mobile apps and web projects. If you are building with **Flutter vibration** or **Flutter haptics**, this editor generates ready-to-use Dart code. You can also test patterns with the Web Vibration API and Web Audio API before shipping them to production.
+
 ## Usage
 
 ### Quick Start
 
-1. **Open the app** — visit the [live demo](https://makjac.github.io/haptics_pattern_tester/) or open `index.html` locally.
+1. **Open the app** — visit the [live demo](https://makjac.github.io/haptics_pattern_tester/) to start designing your vibration pattern, or open `index.html` locally.
 2. **Pick a preset** — choose from `message`, `error`, `call`, `success`, `double tap`, or `heartbeat`.
 3. **Edit the pattern** — drag timeline segments or edit the JSON directly.
 4. **Preview** — hit **Play** to hear/feel the pattern.
@@ -90,11 +94,13 @@ The editor accepts two JSON formats:
 
 ---
 
-## Export
+## Export Formats
+
+The tester supports exporting your haptics pattern to multiple targets:
 
 Click any export tab to generate and copy code instantly:
 
-### Flutter
+### Flutter Vibration / Flutter Haptics
 
 ```dart
 // Flutter – Vibration package
@@ -105,6 +111,7 @@ Vibration.vibrate(
 ```
 
 - Automatically includes `intensities:` when any segment has custom power.
+- Ideal for projects using the [`vibration`](https://pub.dev/packages/vibration) package or any Flutter haptics implementation.
 
 ### Extended JSON
 
