@@ -881,6 +881,47 @@ canvas#tlc {
   color: var(--t3);
 }
 
+/* Code preview with copy button */
+.code-prev-wrap {
+  position: relative;
+}
+
+.copy-btn {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  background: var(--s2);
+  border: 1px solid var(--b1);
+  border-radius: 4px;
+  color: var(--t3);
+  cursor: pointer;
+  padding: 3px 6px;
+  font-size: 13px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: all .12s;
+  font-family: var(--mono);
+  opacity: 0;
+}
+
+.code-prev-wrap:hover .copy-btn,
+.copy-btn:focus {
+  opacity: 1;
+}
+
+.copy-btn:hover {
+  border-color: var(--ac);
+  color: var(--ac);
+  background: var(--s3);
+}
+
+@media (hover: none) {
+  .copy-btn {
+    opacity: 1;
+  }
+}
+
 /* Status bar */
 .sbar {
   padding: 6px 16px;

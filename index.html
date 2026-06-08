@@ -284,7 +284,12 @@
               <button class="ebtn" id="esh" onclick="doExport('share')">Share link</button>
               <span class="emsg" id="emsg"></span>
             </div>
-            <div class="code-prev" id="cprev">—</div>
+            <div class="code-prev-wrap">
+              <div class="code-prev" id="cprev">—</div>
+              <button class="copy-btn" id="cpybtn" onclick="copyExport()" title="Copy code" aria-label="Copy code">
+                <i class="ti ti-copy" aria-hidden="true"></i>
+              </button>
+            </div>
           </div>
         </div>
       </div>

@@ -2,6 +2,17 @@
 
 let lastExport = 'flutter';
 
+function copyExport() {
+  const prev = document.getElementById('cprev');
+  const text = prev.innerText || prev.textContent || '';
+  if (!text || text === '—') return;
+  navigator.clipboard.writeText(text).catch(() => { });
+  const msg = document.getElementById('emsg');
+  msg.textContent = 'Copied!';
+  msg.style.opacity = '1';
+  setTimeout(() => msg.style.opacity = '0', 1800);
+}
+
 function hl(code) {
   return code
     .replace(/&/g, '&amp;')
