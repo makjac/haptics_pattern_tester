@@ -32,14 +32,18 @@ function toggleVib() {
     return;
   }
   vibOn = !vibOn;
-  document.getElementById('vtog').className = 'tog' + (vibOn ? ' on' : '');
+  const el = document.getElementById('vtog');
+  el.className = 'tog' + (vibOn ? ' on' : '');
+  el.setAttribute('aria-checked', vibOn ? 'true' : 'false');
   document.getElementById('vlbl').textContent = vibOn ? 'on' : 'off';
   checkChanged();
 }
 
 function toggleSnd() {
   sndOn = !sndOn;
-  document.getElementById('stog').className = 'tog' + (sndOn ? ' on' : '');
+  const el = document.getElementById('stog');
+  el.className = 'tog' + (sndOn ? ' on' : '');
+  el.setAttribute('aria-checked', sndOn ? 'true' : 'false');
   document.getElementById('slbl').textContent = sndOn ? 'on' : 'off';
   checkChanged();
 }
