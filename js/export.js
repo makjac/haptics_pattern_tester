@@ -33,14 +33,17 @@ function doExport(type, silent) {
   let code = '';
   if (type === 'flutter') {
     const arr = [0];
-    const ints = [];
+    const ints = [0];
     let hasCustomInt = false;
     segs.forEach(s => {
       if (s.duration > 0) {
         arr.push(s.duration);
-        if (s.pause > 0) arr.push(s.pause);
         ints.push(s.power);
         if (s.power !== 255) hasCustomInt = true;
+        if (s.pause > 0) {
+          arr.push(s.pause);
+          ints.push(0);
+        }
       }
     });
     code = `// Flutter – Vibration package\nVibration.vibrate(\n  pattern: ${JSON.stringify(arr)},`;
