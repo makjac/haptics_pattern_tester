@@ -108,6 +108,9 @@
         <span class="htitle">Pattern Tester</span>
         <span class="hsub">Flutter · WebAudio · Vibration API</span>
         <span class="bdg bdg-g" id="astat">AUDIO OK</span>
+        <button class="tbtn" id="ibtn" onclick="openAbout()" title="About this tool" aria-label="About this tool">
+          <i class="ti ti-info-circle" aria-hidden="true"></i>
+        </button>
         <button class="tbtn" id="tbtn" onclick="cycleTheme()" title="Toggle theme" aria-label="Toggle theme">
           <i class="ti ti-sun" aria-hidden="true"></i>
           <i class="ti ti-moon" aria-hidden="true"></i>
@@ -284,16 +287,15 @@
         </div>
       </div>
 
-      <!-- SEO Content -->
-      <div class="band" style="padding-top:0">
-        <div class="wrap">
-          <div class="seo-about" style="font-size:11px;color:var(--t3);line-height:1.7;opacity:.85">
-            <h2 style="font-size:12px;color:var(--t2);margin-bottom:6px">About Vibration Pattern Tester</h2>
-            <p><strong>Vibration Pattern Tester</strong> is a free online <strong>haptics pattern</strong> editor for developers and designers. Build custom <strong>vibration patterns</strong> with an interactive draggable timeline, preview instantly on web, and export ready-to-use code for <strong>Flutter vibration</strong> and <strong>Flutter haptics</strong> projects.</p>
-            <p style="margin-top:6px">The tool supports the Web Vibration API and Web Audio API, making it easy to prototype haptic feedback for mobile apps, games, and progressive web apps. Whether you need a quick <strong>vibration pattern</strong> for a Flutter app or want to experiment with <strong>haptics patterns</strong> for Android and iOS, this tester helps you iterate in seconds.</p>
-          </div>
+      <!-- About dialog (SEO-friendly: content stays in DOM for crawlers) -->
+      <dialog id="about-dialog" aria-labelledby="about-title">
+        <button class="about-close" onclick="closeAbout()" aria-label="Close">×</button>
+        <h2 id="about-title">About Vibration Pattern Tester</h2>
+        <div class="about-body">
+          <p><strong>Vibration Pattern Tester</strong> is a free online <strong>haptics pattern</strong> editor for developers and designers. Build custom <strong>vibration patterns</strong> with an interactive draggable timeline, preview instantly on web, and export ready-to-use code for <strong>Flutter vibration</strong> and <strong>Flutter haptics</strong> projects.</p>
+          <p>The tool supports the Web Vibration API and Web Audio API, making it easy to prototype haptic feedback for mobile apps, games, and progressive web apps. Whether you need a quick <strong>vibration pattern</strong> for a Flutter app or want to experiment with <strong>haptics patterns</strong> for Android and iOS, this tester helps you iterate in seconds.</p>
         </div>
-      </div>
+      </dialog>
 
     </main>
 

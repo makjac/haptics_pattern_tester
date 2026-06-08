@@ -76,6 +76,14 @@ function init() {
   checkChanged();
   initTotalScaler();
   initTheme();
+
+  /* Close about dialog on backdrop click */
+  const aboutDlg = document.getElementById('about-dialog');
+  if (aboutDlg) {
+    aboutDlg.addEventListener('click', e => {
+      if (e.target === aboutDlg) aboutDlg.close();
+    });
+  }
 }
 
 function initTotalScaler() {
@@ -157,6 +165,17 @@ function initTheme() {
   window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => {
     if (currentTheme === 'system') applyTheme('system');
   });
+}
+
+/* About dialog */
+function openAbout() {
+  const d = document.getElementById('about-dialog');
+  if (d) d.showModal();
+}
+
+function closeAbout() {
+  const d = document.getElementById('about-dialog');
+  if (d) d.close();
 }
 
 setTimeout(init, 60);
