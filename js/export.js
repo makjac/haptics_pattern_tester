@@ -33,9 +33,9 @@ function doExport(type, silent) {
   ['efl', 'eand', 'eios', 'eex', 'esh'].forEach(id => document.getElementById(id).classList.remove('active'));
   const activeId =
     type === 'flutter' ? 'efl' :
-    type === 'android' ? 'eand' :
-    type === 'ios' ? 'eios' :
-    type === 'extended' ? 'eex' : 'esh';
+      type === 'android' ? 'eand' :
+        type === 'ios' ? 'eios' :
+          type === 'extended' ? 'eex' : 'esh';
   document.getElementById(activeId).classList.add('active');
 
   const { segs, err } = parsePat(document.getElementById('ta').value);
@@ -88,9 +88,9 @@ function doExport(type, silent) {
       if (s.duration > 0) {
         const intensityVal = (s.power / 255).toFixed(2);
         const durSec = (s.duration / 1000).toFixed(3);
-        ev += `let i${Math.round(t*1000)} = CHHapticEventParameter(parameterID: .hapticIntensity, value: ${intensityVal})\n`;
-        ev += `let s${Math.round(t*1000)} = CHHapticEventParameter(parameterID: .hapticSharpness, value: 0.5)\n`;
-        ev += `events.append(CHHapticEvent(eventType: .hapticContinuous, parameters: [i${Math.round(t*1000)}, s${Math.round(t*1000)}], relativeTime: ${t.toFixed(3)}, duration: ${durSec}))\n`;
+        ev += `let i${Math.round(t * 1000)} = CHHapticEventParameter(parameterID: .hapticIntensity, value: ${intensityVal})\n`;
+        ev += `let s${Math.round(t * 1000)} = CHHapticEventParameter(parameterID: .hapticSharpness, value: 0.5)\n`;
+        ev += `events.append(CHHapticEvent(eventType: .hapticContinuous, parameters: [i${Math.round(t * 1000)}, s${Math.round(t * 1000)}], relativeTime: ${t.toFixed(3)}, duration: ${durSec}))\n`;
         t += s.duration / 1000;
       }
       if (s.pause > 0) {

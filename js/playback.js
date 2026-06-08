@@ -17,7 +17,7 @@ function ga() {
 function unlockAudioContext(ac) {
   if (!ac || ac.state !== 'suspended') return;
   const unlock = () => {
-    if (ac.state === 'suspended') ac.resume().catch(() => {});
+    if (ac.state === 'suspended') ac.resume().catch(() => { });
   };
   const events = ['touchstart', 'touchend', 'click', 'keydown'];
   events.forEach(ev => document.body.addEventListener(ev, unlock, { passive: true, once: true }));
@@ -27,7 +27,7 @@ function playSound(power, duration) {
   if (!sndOn || power === 0) return;
   const ac = ga();
   if (ac.state === 'suspended') {
-    ac.resume().catch(() => {});
+    ac.resume().catch(() => { });
   }
   const freq = 80 + (power / 255) * 720;
   const gv = (power / 255) * vol;
