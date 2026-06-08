@@ -76,6 +76,7 @@ function init() {
   checkChanged();
   initTotalScaler();
   initTheme();
+  detectVibSupport();
 
   /* Close about dialog on backdrop click */
   const aboutDlg = document.getElementById('about-dialog');

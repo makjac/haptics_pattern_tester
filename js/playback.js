@@ -6,15 +6,29 @@ let playStart = 0;
 let playTotal = 0;
 let timers = [];
 let raf = null;
-
 function ga() {
-  if (!aCtx) aCtx = new (window.AudioContext || window.webkitAudioContext)();
+  if (!aCtx) {
+    aCtx = new (window.AudioContext || window.webkitAudioContext)();
+    unlockAudioContext(aCtx);
+  }
   return aCtx;
+}
+
+function unlockAudioContext(ac) {
+  if (!ac || ac.state !== 'suspended') return;
+  const unlock = () => {
+    if (ac.state === 'suspended') ac.resume().catch(() => {});
+  };
+  const events = ['touchstart', 'touchend', 'click', 'keydown'];
+  events.forEach(ev => document.body.addEventListener(ev, unlock, { passive: true, once: true }));
 }
 
 function playSound(power, duration) {
   if (!sndOn || power === 0) return;
   const ac = ga();
+  if (ac.state === 'suspended') {
+    ac.resume().catch(() => {});
+  }
   const freq = 80 + (power / 255) * 720;
   const gv = (power / 255) * vol;
   const o = ac.createOscillator();
@@ -50,11 +64,20 @@ function runPb() {
   playTotal = total;
 
   const vp = [];
+  const va = [];
   segs.forEach(s => {
-    if (s.duration > 0) vp.push(s.duration);
-    if (s.pause > 0) vp.push(s.pause);
+    if (s.duration > 0) {
+      vp.push(s.duration);
+      va.push(Math.max(1, Math.min(255, s.power || 255)));
+    }
+    if (s.pause > 0) {
+      vp.push(s.pause);
+      va.push(0);
+    }
   });
-  if (vibOn && navigator.vibrate) navigator.vibrate(vp);
+  if (vibOn && navigator.vibrate) {
+    navigator.vibrate(vp, { amplitude: va });
+  }
 
   let t = 0;
   segs.forEach((seg, idx) => {

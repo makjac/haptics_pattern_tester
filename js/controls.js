@@ -6,12 +6,31 @@ let sndOn = true;
 let vol = 0.7;
 let speed = 1.0;
 let sensitivity = 255;
+let vibAvailable = false;
 
 const VOL_DEF = 70;
 const SPD_DEF = 100;
 const SENS_DEF = 255;
 
+function detectVibSupport() {
+  vibAvailable = ('vibrate' in navigator);
+  const astat = document.getElementById('astat');
+  if (astat) {
+    if (vibAvailable) {
+      astat.textContent = 'AUDIO OK · VIB OK';
+      astat.className = 'bdg bdg-g';
+    } else {
+      astat.textContent = 'AUDIO OK · VIB OFF';
+      astat.className = 'bdg bdg-r';
+    }
+  }
+}
+
 function toggleVib() {
+  if (!vibAvailable) {
+    setStatus('Vibration API not available on this browser/device', 'err');
+    return;
+  }
   vibOn = !vibOn;
   document.getElementById('vtog').className = 'tog' + (vibOn ? ' on' : '');
   document.getElementById('vlbl').textContent = vibOn ? 'on' : 'off';
