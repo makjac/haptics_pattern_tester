@@ -277,7 +277,9 @@
           <div class="exp-sec">
             <div class="lbl"><i class="ti ti-download" aria-hidden="true"></i> Export</div>
             <div class="exp-btns">
-              <button class="ebtn active" id="efl" onclick="doExport('flutter')">Flutter list</button>
+              <button class="ebtn active" id="efl" onclick="doExport('flutter')">Flutter</button>
+              <button class="ebtn" id="eand" onclick="doExport('android')">Android</button>
+              <button class="ebtn" id="eios" onclick="doExport('ios')">iOS</button>
               <button class="ebtn" id="eex" onclick="doExport('extended')">Extended JSON</button>
               <button class="ebtn" id="esh" onclick="doExport('share')">Share link</button>
               <span class="emsg" id="emsg"></span>
@@ -293,7 +295,8 @@
         <h2 id="about-title">About Vibration Pattern Tester</h2>
         <div class="about-body">
           <p><strong>Vibration Pattern Tester</strong> is a free online <strong>haptics pattern</strong> editor for developers and designers. Build custom <strong>vibration patterns</strong> with an interactive draggable timeline, preview instantly on web, and export ready-to-use code for <strong>Flutter vibration</strong> and <strong>Flutter haptics</strong> projects.</p>
-          <p>The tool supports the Web Vibration API and Web Audio API, making it easy to prototype haptic feedback for mobile apps, games, and progressive web apps. Whether you need a quick <strong>vibration pattern</strong> for a Flutter app or want to experiment with <strong>haptics patterns</strong> for Android and iOS, this tester helps you iterate in seconds.</p>
+          <p>The tool supports the <a href="https://developer.mozilla.org/en-US/docs/Web/API/Vibration_API" target="_blank" rel="noopener">Web Vibration API</a> and <a href="https://developer.mozilla.org/en-US/docs/Web/API/Web_Audio_API" target="_blank" rel="noopener">Web Audio API</a>, making it easy to prototype haptic feedback for mobile apps, games, and progressive web apps. Whether you need a quick <strong>vibration pattern</strong> for a <a href="https://flutter.dev/" target="_blank" rel="noopener">Flutter</a> app or want to experiment with <strong>haptics patterns</strong> for <a href="https://developer.android.com/develop/ui/views/haptics/haptics-principles" target="_blank" rel="noopener">Android</a> and <a href="https://developer.apple.com/design/human-interface-guidelines/playing-haptics" target="_blank" rel="noopener">iOS</a>, this tester helps you iterate in seconds.</p>
+          <p style="margin-top:10px">Resources: <a href="https://pub.dev/packages/vibration" target="_blank" rel="noopener">Flutter vibration package</a> · <a href="https://github.com/makjac/haptics_pattern_tester" target="_blank" rel="noopener">GitHub repository</a></p>
         </div>
       </dialog>
 

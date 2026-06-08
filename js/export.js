@@ -7,9 +7,9 @@ function hl(code) {
     .replace(/&/g, '&amp;')
     .replace(/</g, '&lt;')
     .replace(/>/g, '&gt;')
-    .replace(/\b(Vibration|HapticPattern|HapticSegment|vibrate)\b/g, '<span class="fn">$1</span>')
-    .replace(/\b(pattern|duration|power|from)\b/g, '<span class="nm">$1</span>')
-    .replace(/\b(\d+)\b/g, '<span class="num">$1</span>')
+    .replace(/\b(Vibration|HapticPattern|HapticSegment|vibrate|val|var|let|guard|import|try|catch|fun|as|class|return|if|else|func|guard|let|var|return|try|catch|import|class|init|self|throws|throw)\b/g, '<span class="fn">$1</span>')
+    .replace(/\b(pattern|duration|power|from|timings|amplitudes|effect|intensity|sharpness|events|engine|player|relativeTime|eventType|parameters|parameterID|hapticIntensity|hapticSharpness|hapticContinuous|supportsHaptics|makePlayer|start|createWaveform|VibrationEffect|CHHapticEngine|CHHapticEvent|CHHapticEventParameter|CHHapticPattern|TimeInterval|Vibrator|Context|Float|TimeInterval)\b/g, '<span class="nm">$1</span>')
+    .replace(/\b(\d+(?:\.\d+)?)\b/g, '<span class="num">$1</span>')
     .replace(/(\/\/[^\n]*)/g, '<span class="cm">$1</span>');
 }
 
@@ -19,8 +19,13 @@ function updateCodePreview() {
 
 function doExport(type, silent) {
   lastExport = type;
-  ['efl', 'eex', 'esh'].forEach(id => document.getElementById(id).classList.remove('active'));
-  document.getElementById(type === 'flutter' ? 'efl' : type === 'extended' ? 'eex' : 'esh').classList.add('active');
+  ['efl', 'eand', 'eios', 'eex', 'esh'].forEach(id => document.getElementById(id).classList.remove('active'));
+  const activeId =
+    type === 'flutter' ? 'efl' :
+    type === 'android' ? 'eand' :
+    type === 'ios' ? 'eios' :
+    type === 'extended' ? 'eex' : 'esh';
+  document.getElementById(activeId).classList.add('active');
 
   const { segs, err } = parsePat(document.getElementById('ta').value);
   const prev = document.getElementById('cprev');
@@ -51,6 +56,37 @@ function doExport(type, silent) {
       code += `\n  intensities: ${JSON.stringify(ints)},`;
     }
     code += `\n);`;
+  } else if (type === 'android') {
+    const timings = [0];
+    const amplitudes = [0];
+    segs.forEach(s => {
+      if (s.duration > 0) {
+        timings.push(s.duration);
+        amplitudes.push(s.power);
+      }
+      if (s.pause > 0) {
+        timings.push(s.pause);
+        amplitudes.push(0);
+      }
+    });
+    code = `// Android (Kotlin) – VibrationEffect API 26+\nval vibrator = getSystemService(Context.VIBRATOR_SERVICE) as Vibrator\nval timings = longArrayOf(${timings.map(t => t + 'L').join(', ')})\nval amplitudes = intArrayOf(${amplitudes.join(', ')})\nval effect = VibrationEffect.createWaveform(timings, amplitudes, -1)\nvibrator.vibrate(effect)`;
+  } else if (type === 'ios') {
+    let ev = '';
+    let t = 0.0;
+    segs.forEach(s => {
+      if (s.duration > 0) {
+        const intensityVal = (s.power / 255).toFixed(2);
+        const durSec = (s.duration / 1000).toFixed(3);
+        ev += `let i${Math.round(t*1000)} = CHHapticEventParameter(parameterID: .hapticIntensity, value: ${intensityVal})\n`;
+        ev += `let s${Math.round(t*1000)} = CHHapticEventParameter(parameterID: .hapticSharpness, value: 0.5)\n`;
+        ev += `events.append(CHHapticEvent(eventType: .hapticContinuous, parameters: [i${Math.round(t*1000)}, s${Math.round(t*1000)}], relativeTime: ${t.toFixed(3)}, duration: ${durSec}))\n`;
+        t += s.duration / 1000;
+      }
+      if (s.pause > 0) {
+        t += s.pause / 1000;
+      }
+    });
+    code = `// iOS (Swift) – Core Haptics\nimport CoreHaptics\n\nlet engine = try! CHHapticEngine()\ntry! engine.start()\n\nvar events = [CHHapticEvent]()\n${ev}\nlet pattern = try! CHHapticPattern(events: events, parameters: [])\nlet player = try! engine.makePlayer(with: pattern)\ntry! player.start(atTime: 0)`;
   } else if (type === 'extended') {
     const ext = [];
     segs.forEach(s => {
