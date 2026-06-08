@@ -74,7 +74,7 @@ function runPb() {
     drawTL(segs, -1);
     document.getElementById('dbstep').className = 'dval';
     document.getElementById('dbrem').textContent = '0ms';
-    setStatus('Gotowe', '');
+    setStatus('Ready', '');
     if (looping) {
       runPb();
     } else {
