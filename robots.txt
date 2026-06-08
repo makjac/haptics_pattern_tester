@@ -1,3 +1,3 @@
 User-agent: *
 Allow: /
-Sitemap: https://maks.github.io/haptics_pattern_tester/sitemap.xml
+Sitemap: https://makjac.github.io/haptics_pattern_tester/sitemap.xml
